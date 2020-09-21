@@ -27,7 +27,7 @@ namespace SocialMedia.API
                 options.AddPolicy(name: MyAllowSpecificOrigins,
                 builder =>
                 {
-                    builder.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:3000");
+                    builder.WithOrigins("http://localhost:3000").AllowAnyHeader().AllowAnyMethod().AllowCredentials();
                 });
             });
             services.AddDbContext<DataContext>(options =>
@@ -46,7 +46,7 @@ namespace SocialMedia.API
                 app.UseDeveloperExceptionPage();
             }
 
-            //app.UseHttpsRedirection(); Redirects http requests to https
+            app.UseHttpsRedirection();
 
             app.UseRouting();
 

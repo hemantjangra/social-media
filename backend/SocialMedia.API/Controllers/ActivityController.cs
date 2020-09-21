@@ -49,6 +49,7 @@ namespace SocialMedia.API.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult<Unit>> Edit(Guid id, Edit.Command command)
         {
+            Console.WriteLine("Put request sent successfully");
             command.Id = id;
             return await _mediator.Send(command);
         }
