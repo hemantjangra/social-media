@@ -17,22 +17,36 @@ import "react-datepicker/dist/react-datepicker.css";
 
 import { IActivity } from '../../../app/models/IActivity';
 
+interface IProps{
+  activity: IActivity | null | undefined
+}
 
+const ActivityForm: React.FC<IProps> = ({activity}) => {
 
-const ActivityForm: React.FC = () => {
+  const [formState, updateFormState] = useState<IActivity>(activity ? {...activity} : {id: '', title: '', description: '', date: new Date(), venue: '', city: '', category: ''});
 
-  const [formState, updateFormState] = useState<IActivity>({id: uuid(), title: '', description: '', date: new Date(), venue: '', city: '', category: ''});
+  const [isCreateMode, updateCreateMode] = useState<boolean>(false);
 
   const handleCreateMode = () =>{
     navCreateSubject.next({value: false});
   };
 
   const handleactivitySubmit = () =>{
-    httpHelper.postRequest('https://localhost:5001/api/activity', formState).then(results => alert(results.results));
+    if(isCreateMode){
+      httpHelper.postRequest('https://localhost:5001/api/activity', formState).then(results => alert(results.results));
+    }
+    else{
+      httpHelper.putRequest(`https://localhost:5001/api/activity/${formState.id}`, {...formState}).then(results => console.log(results.results));
+    }
   };
 
   const updateFormStateItems = (event: any, key: string) =>{
-    let formValues: IActivity = formState ? {...formState} : {id: uuid()};
+    if(!formState.id){
+      updateCreateMode(true)
+    }
+    const {id} = formState;
+    formState.id = id || uuid();
+    let formValues: IActivity = {...formState};
     switch (key){
       case 'title':
         formValues.title = event.target.value;
@@ -74,8 +88,7 @@ const ActivityForm: React.FC = () => {
         </Row>
         <Row>
           <Col size={1}>
-            {/* <StyledInput type="text" placeholder="Date" value={formState?.date?.toDateString()} onChange={(event) => updateFormStateItems(event, 'date')} /> */}
-            <DatePicker selected={formState?.date} onChange={(date) => updateFormStateItems(date, 'date')} />
+            <DatePicker selected={formState?.date ? new Date(formState.date) : new Date()} onChange={(date) => updateFormStateItems(date, 'date')} />
           </Col>
         </Row>
         <Row>

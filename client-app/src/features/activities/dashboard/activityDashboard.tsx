@@ -68,7 +68,7 @@ const ActivityDashboard: React.FC = () => {
           </Col>
           <Col size={1}>
             {activity && !editMode && <ActivityDetail activity={activity} setEditMode={handleEditMode} setActivity={setSelectedActivity} />}
-            {editMode && <ActivityForm/>}
+            {editMode && <ActivityForm activity={activity}/>}
           </Col>
         </Row>
       </Grid>
