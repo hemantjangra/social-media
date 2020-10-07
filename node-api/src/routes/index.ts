@@ -1,8 +1,9 @@
-import {RouteOptions} from 'fastify';
-import {findActivities} from '../controllers/activity.controller';
+import fastify, { FastifyInstance, RouteOptions} from 'fastify';
+import {findActivities, postActivity} from '../controllers/activity.controller';
 
-const getActivities: RouteOptions = {
-    method: 'GET',
-    url: '/api/activity',
-    handler: findActivities
+export const activityRoute = async (server: FastifyInstance) =>{
+    server.post('/', postActivity);
+    server.get('/', findActivities);
 };
+
+
