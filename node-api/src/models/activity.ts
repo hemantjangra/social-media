@@ -5,12 +5,13 @@ const activitySchema = new Schema({
     _id:{
         type: String,
         default: uuidv4(),
+        get: (id: string) => {
+            return id;
+        },
+        
         set: (id: String) => {
             return id;
         },
-        get: (id: string) => {
-            return id;
-        }
     },
     title: String,
     description: String,
@@ -21,13 +22,13 @@ const activitySchema = new Schema({
 },
 {
     toJSON:{
-        getters: true
+        getters: true,
+        transform: (doc, obj) =>{
+            delete obj._id;
+            delete obj.__v;
+            return obj;
+        }
     }
 });
-
-// activitySchema.virtual('id')
-//     .get(function(this:{_id: String}){
-//         return this._id
-//     });
 
 export default model('Activity', activitySchema);
