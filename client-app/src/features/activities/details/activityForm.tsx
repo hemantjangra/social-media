@@ -33,10 +33,10 @@ const ActivityForm: React.FC<IProps> = ({activity}) => {
 
   const handleactivitySubmit = () =>{
     if(isCreateMode){
-      httpHelper.postRequest('https://localhost:5001/api/activity', formState).then(results => alert(results.results));
+      httpHelper.postRequest('http://localhost:5000/api/activity', formState).then(results => alert(results.results));
     }
     else{
-      httpHelper.putRequest(`https://localhost:5001/api/activity/${formState.id}`, {...formState}).then(results => console.log(results.results));
+      httpHelper.putRequest(`http://localhost:5000/api/activity/${formState.id}`, {...formState}).then(results => console.log(results.results));
     }
   };
 

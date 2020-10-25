@@ -1,17 +1,8 @@
-import fastify, {FastifyInstance} from 'fastify';
-import swagger from 'fastify-swagger';
-import { Server, IncomingMessage, ServerResponse } from "http";
-import mongoose from 'mongoose';
+import {build} from './app';
 import {config} from './config';
-import {activityRoute} from './routes';
+import {connect} from './mongo/connect';
 
-const server: FastifyInstance<Server, IncomingMessage, ServerResponse> = fastify({logger: true});
-
-server.get('/ping', async(request, response) => {
-    return response.send('working');
-});
-
-server.register(activityRoute, {prefix: '/api/activity'});
+const server = build({logger:{ level: 'info', prettyPrint: true}});
 
 server.listen(5000, (err, address) =>{
     if(err){
@@ -21,9 +12,9 @@ server.listen(5000, (err, address) =>{
     console.log(`server is listening at ${address}`);
 });
 
-export default server;
-
-mongoose.connect(`mongodb://${config.db.host}:${config.db.port}/${config.db.name}`,{
+connect(`mongodb://${config.db.host}:${config.db.port}/${config.db.name}`,{
     useNewUrlParser: true,
     useUnifiedTopology: true
-}).then(()=> server.log.info('Mongo connected')).catch(err => server.log.error(err));
+});
+
+export default server;

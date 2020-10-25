@@ -3,14 +3,19 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "*": ["src/*"]
+      "*": ["node_modules/*", "src/*"]
     },
     "allowJs": true,
     "module": "commonjs",
     "moduleResolution": "node",
     "sourceMap": true,
     "outDir": "./dist",
-    "rootDir": "src"
+    "resolveJsonModule": true,
+    
   },
+  "include": [
+    "src/**/*",
+    "test/**/*"
+  ],
   "exclude": ["node_modules", "**/*.spec.ts"]
 }

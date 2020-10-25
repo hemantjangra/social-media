@@ -24,7 +24,7 @@ const ActivityDashboard: React.FC = () => {
 
   const getActivities = () => {
     httpWrapper
-      .getRequest("https://localhost:5001/api/activity")
+      .getRequest("http://localhost:5000/api/activity")
       .then((data: IHttpWrapper) => setActivities(data.results))
       .catch((err: any) => {
         throw err;

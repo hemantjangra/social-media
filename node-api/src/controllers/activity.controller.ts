@@ -1,4 +1,3 @@
-import activity from '../models/activity';
 import {FastifyRequest, FastifyReply} from 'fastify';
 import {getAllActivities, getActivityById, addActivity, editActivity, deleteAcitivity} from '../dal/activity.dal';
 import { IActivity } from 'appmodels/activity';
